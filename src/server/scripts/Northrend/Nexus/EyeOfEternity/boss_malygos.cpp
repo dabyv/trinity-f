@@ -469,6 +469,7 @@ public:
                     DoCast(me, SPELL_VORTEX_3, true);
                     break;
                 case ACTION_LIFT_IN_AIR:
+                {
                     Position _zToLift;
                     me->GetPosition(&_zToLift);
                     if (_phase == PHASE_ONE)
@@ -482,6 +483,7 @@ public:
                         me->GetMotionMaster()->MoveTakeoff(POINT_PHASE_ONE_TO_TWO_TRANSITION, _zToLift);
                     }
                     break;
+                }
                 case ACTION_HANDLE_P_THREE_INTRO:
                     events.CancelEventGroup(0);
                     events.CancelEventGroup(1);
@@ -544,7 +546,7 @@ public:
                     break;
                 case PHASE_TWO:
                     events.ScheduleEvent(EVENT_MOVE_TO_POINT_SURGE_P_TWO, 60*IN_MILLISECONDS, 0, _phase);
-                    me->AI()->DoAction(ACTION_LIFT_IN_AIR);
+                    DoAction(ACTION_LIFT_IN_AIR);
                     break;
                 case PHASE_THREE:
                     events.ScheduleEvent(EVENT_ARCANE_PULSE, 7*IN_MILLISECONDS, 0, _phase);
@@ -2325,7 +2327,7 @@ class spell_malygos_surge_of_power_warning_selector_25 : public SpellScriptLoade
 
             void ExecuteMainSpell()
             {
-                GetCaster()->ToCreature()->AI()->DoCastAOE(SPELL_SURGE_OF_POWER_PHASE_3_25);
+                GetCaster()->ToCreature()->CastSpell((Unit*)NULL, SPELL_SURGE_OF_POWER_PHASE_3_25);
             }
 
             void Register() OVERRIDE

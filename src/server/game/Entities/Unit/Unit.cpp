@@ -12988,6 +12988,8 @@ float Unit::GetSpellMaxRangeForTarget(Unit const* target, SpellInfo const* spell
         return 0;
     if (spellInfo->RangeEntry->maxRangeFriend == spellInfo->RangeEntry->maxRangeHostile)
         return spellInfo->GetMaxRange();
+    if (target == NULL)
+        return spellInfo->GetMaxRange(true);
     return spellInfo->GetMaxRange(!IsHostileTo(target));
 }
 
@@ -15157,8 +15159,10 @@ void Unit::Kill(Unit* victim, bool durabilityLoss)
         data << uint64(victim->GetGUID()); // victim
 
         Player* looter = player;
+        Group* group = player->GetGroup();
+        bool hasLooterGuid = false;
 
-        if (Group* group = player->GetGroup())
+        if (group)
         {
             group->BroadcastPacket(&data, group->GetMemberGroup(player->GetGUID()));
 
@@ -15170,16 +15174,10 @@ void Unit::Kill(Unit* victim, bool durabilityLoss)
                     looter = ObjectAccessor::FindPlayer(group->GetLooterGuid());
                     if (looter)
                     {
+                        hasLooterGuid = true;
                         creature->SetLootRecipient(looter);   // update creature loot recipient to the allowed looter.
-                        group->SendLooter(creature, looter);
                     }
-                    else
-                        group->SendLooter(creature, NULL);
                 }
-                else
-                    group->SendLooter(creature, NULL);
-
-                group->UpdateLooterGuid(creature);
             }
         }
         else
@@ -15196,6 +15194,7 @@ void Unit::Kill(Unit* victim, bool durabilityLoss)
             }
         }
 
+        // Generate loot before updating looter
         if (creature)
         {
             Loot* loot = &creature->loot;
@@ -15207,6 +15206,18 @@ void Unit::Kill(Unit* victim, bool durabilityLoss)
                 loot->FillLoot(lootid, LootTemplates_Creature, looter, false, false, creature->GetLootMode());
 
             loot->generateMoneyLoot(creature->GetCreatureTemplate()->mingold, creature->GetCreatureTemplate()->maxgold);
+
+            if (group)
+            {
+                if (hasLooterGuid)
+                    group->SendLooter(creature, looter);
+                else
+                    group->SendLooter(creature, NULL);
+
+                // Update round robin looter only if the creature had loot
+                if (!creature->loot.empty())
+                    group->UpdateLooterGuid(creature);
+            }
         }
 
         player->RewardPlayerAndGroupAtKill(victim, false);
