@@ -1215,6 +1215,9 @@ enum TrinityStrings
     LANG_AUTO_BROADCAST                 = 11000,
     LANG_INVALID_REALMID                = 11001,
 
+	LANG_WORD_FILTER_FOUND_BAD_WORD_IN_CHAT = 20000,
+
+	
     // Show Kick in world
     LANG_COMMAND_KICKMESSAGE_WORLD = 11002,
 

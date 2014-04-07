@@ -13,6 +13,7 @@ set(scripts_STAT_SRCS
 
 Custom/cs_custom.cpp
 Custom/npc_top_arena.cpp
+Custom/duel_reset.cpp
 
 )
 

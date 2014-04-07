@@ -2299,6 +2299,8 @@ class Player : public Unit, public GridObject<Player>
         std::string GetMapAreaAndZoneString();
         std::string GetCoordsMapAreaAndZoneString();
 
+		std::string m_sentMsgCache;
+		
     protected:
         // Gamemaster whisper whitelist
         WhisperListContainer WhisperList;

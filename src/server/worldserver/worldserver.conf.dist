@@ -1460,7 +1460,7 @@ ListenRange.Yell = 300
 #        Default:     0 - (Disabled)
 #                     1 - (Enabled)
 
-ChatFakeMessagePreventing = 0
+ChatFakeMessagePreventing = 1
 
 #
 #    ChatStrictLinkChecking.Severity
@@ -1490,7 +1490,7 @@ ChatStrictLinkChecking.Kick = 0
 #        Default:     10 - (Enabled)
 #                     0  - (Disabled)
 
-ChatFlood.MessageCount = 10
+ChatFlood.MessageCount = 3
 
 #
 #    ChatFlood.MessageDelay
@@ -1555,6 +1555,26 @@ PreserveCustomChannels = 1
 #                     0  - (Disabled, Infinite channel storage)
 
 PreserveCustomChannelDuration = 14
+
+#
+###################################################################################################
+
+###################################################################################################
+# WORD FILTER SETTINGS
+#
+#    WordFilter.Enable
+#        Description: Filtering players chat for bad words.
+#        Default:     1 - (Enabled)
+#                     0 - (Disabled)
+
+WordFilter.Enable = 1
+
+#    WordFilter.MuteDuration
+#        Description: Mute chat for player.
+#        Default:     10000 - (10 sec)
+#                     0     - (Disabled)
+
+WordFilter.MuteDuration = 10000
 
 #
 ###################################################################################################
@@ -2843,3 +2863,39 @@ PacketSpoof.BanDuration = 86400
 
 #
 ###################################################################################################
+
+################################################################################################### 
+# DUEL RESET COOLDOWN BY DIMITRO 
+# 
+# DuelReset.Cooldown.OnStart 
+# Reseting cooldown and restore health to start of duel. 
+# Default: 0 - Disable 
+# 1 - Enable 
+# 
+# DuelReset.Cooldown.OnFinish 
+# Reseting cooldown and restore health to finish of duel. 
+# Default: 0 - Disable 
+# 1 - Enable 
+# 
+# DuelReset.Cooldown.Only.in.Elwynn.and.Durotar 
+# Reseting cooldown only in Elwynn forest and Durotar locations. 
+# Default: 0 - Disable 
+# 1 - Enable 
+# 
+# DuelReset.Cooldown.Max.Energy.OnStart 
+# Sets rage, mana and runic power to max on duel start. 
+# Default: 0 - Disable 
+# 1 - Enable 
+# 
+# DuelReset.Cooldown.Reset.Energy.OnStart 
+# Resets rage and runic power on duel start. 
+# Default: 0 - Disable 
+# 1 - Enable 
+# 
+################################################################################################### 
+ 
+DuelReset.Cooldown.OnStart = 0 
+DuelReset.Cooldown.OnFinish = 0 
+DuelReset.Cooldown.Only.in.Elwynn.and.Durotar = 0 
+DuelReset.Cooldown.Max.Energy.OnStart = 0 
+DuelReset.Cooldown.Reset.Energy.OnStart = 0 

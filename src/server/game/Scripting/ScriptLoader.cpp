@@ -1438,6 +1438,7 @@ void AddBattlegroundScripts()
 /* This is where custom scripts' loading functions should be declared. */
 	void AddSC_custom_commandscript();
 	void AddSC_npc_top_arena();
+	void AddSC_DuelReset();
 #endif
 
 void AddCustomScripts()
@@ -1446,5 +1447,6 @@ void AddCustomScripts()
     /* This is where custom scripts should be added. */
     AddSC_custom_commandscript();
     AddSC_npc_top_arena();
+	AddSC_DuelReset();
 #endif
 }
