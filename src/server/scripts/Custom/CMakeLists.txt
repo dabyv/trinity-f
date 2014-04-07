@@ -10,6 +10,10 @@
 
 set(scripts_STAT_SRCS
   ${scripts_STAT_SRCS}
+
+Custom/cs_custom.cpp
+Custom/npc_top_arena.cpp
+
 )
 
 message("  -> Prepared: Custom")
