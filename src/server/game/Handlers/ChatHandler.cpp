@@ -340,7 +340,7 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recvData)
                 sender->AddWhisperWhiteList(receiver->GetGUID());
 			if (receiver->isDND())
 			{
-				ChatHandler(GetPlayer()->GetSession()).PSendSysMessage(LANG_PLAYER_DND, receiver->GetName().c_str(), receiver->autoReplyMsg);
+				ChatHandler(GetPlayer()->GetSession()).PSendSysMessage(LANG_PLAYER_DND, receiver->GetName().c_str(), receiver->autoReplyMsg.c_str());
 				return;
 			}
             GetPlayer()->Whisper(msg, lang, receiver->GetGUID());
