@@ -338,7 +338,11 @@ void WorldSession::HandleMessagechatOpcode(WorldPacket& recvData)
             if (receiver->getLevel() < sWorld->getIntConfig(CONFIG_CHAT_WHISPER_LEVEL_REQ) ||
                 (HasPermission(rbac::RBAC_PERM_CAN_FILTER_WHISPERS) && !sender->isAcceptWhispers() && !sender->IsInWhisperWhiteList(receiver->GetGUID())))
                 sender->AddWhisperWhiteList(receiver->GetGUID());
-
+			if (receiver->isDND())
+			{
+				ChatHandler(GetPlayer()->GetSession()).PSendSysMessage(LANG_PLAYER_DND, receiver->GetName().c_str(), receiver->autoReplyMsg);
+				return;
+			}
             GetPlayer()->Whisper(msg, lang, receiver->GetGUID());
         } break;
         case CHAT_MSG_PARTY:

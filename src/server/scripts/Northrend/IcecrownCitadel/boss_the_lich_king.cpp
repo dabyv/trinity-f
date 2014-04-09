@@ -396,6 +396,7 @@ class HeightDifferenceCheck
         bool _reverse;
 };
 
+
 class FrozenThroneResetWorker
 {
     public:
@@ -419,6 +420,7 @@ class FrozenThroneResetWorker
                 case GO_DOODAD_ICESHARD_STANDING03:
                 case GO_DOODAD_ICESHARD_STANDING04:
                     go->ResetDoorOrButton();
+					
                     break;
                 default:
                     break;
@@ -554,6 +556,10 @@ class boss_the_lich_king : public CreatureScript
                 _JustReachedHome();
                 instance->SetBossState(DATA_THE_LICH_KING, NOT_STARTED);
 
+				//start custom code
+
+				//end custom code
+
                 // Reset The Frozen Throne gameobjects
                 FrozenThroneResetWorker reset;
                 Trinity::GameObjectWorker<FrozenThroneResetWorker> worker(me, reset);
@@ -571,10 +577,12 @@ class boss_the_lich_king : public CreatureScript
 
             void EnterEvadeMode() OVERRIDE
             {
+
+
                 instance->SetBossState(DATA_THE_LICH_KING, FAIL);
                 BossAI::EnterEvadeMode();
-                if (Creature* tirion = ObjectAccessor::GetCreature(*me, instance->GetData64(DATA_HIGHLORD_TIRION_FORDRING)))
-                    tirion->AI()->EnterEvadeMode();
+				if (Creature* tirion = ObjectAccessor::GetCreature(*me, instance->GetData64(DATA_HIGHLORD_TIRION_FORDRING)))
+					tirion->AI()->EnterEvadeMode();
                 DoCastAOE(SPELL_KILL_FROSTMOURNE_PLAYERS);
                 EntryCheckPredicate pred(NPC_STRANGULATE_VEHICLE);
                 summons.DoAction(ACTION_TELEPORT_BACK, pred);
@@ -821,6 +829,9 @@ class boss_the_lich_king : public CreatureScript
                         Talk(SAY_LK_REMORSELESS_WINTER);
                         me->GetMap()->SetZoneMusic(AREA_THE_FROZEN_THRONE, MUSIC_SPECIAL);
                         DoCast(me, SPELL_REMORSELESS_WINTER_1);
+
+
+
                         events.DelayEvents(62500, EVENT_GROUP_BERSERK); // delay berserk timer, its not ticking during phase transitions
                         events.ScheduleEvent(EVENT_QUAKE, 62500, 0, PHASE_TRANSITION);
                         events.ScheduleEvent(EVENT_PAIN_AND_SUFFERING, 4000, 0, PHASE_TRANSITION);
@@ -1139,6 +1150,9 @@ class npc_tirion_fordring_tft : public CreatureScript
             void Reset() OVERRIDE
             {
                 _events.Reset();
+				//START CUSTOM CODE
+				DoCastAOE(SPELL_MASS_RESURRECTION);
+				//END CUSTOM CODE
                 if (_instance->GetBossState(DATA_THE_LICH_KING) == DONE)
                     me->RemoveFlag(UNIT_NPC_FLAGS, UNIT_NPC_FLAG_GOSSIP);
             }
