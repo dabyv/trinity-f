@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License along
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-
+#include "AnticheatMgr.h"
 #include "Player.h"
 #include "AccountMgr.h"
 #include "AchievementMgr.h"
@@ -1551,6 +1551,8 @@ void Player::Update(uint32 p_time)
     if (!IsInWorld())
         return;
 
+		
+		//sAnticheatMgr->HandleHackDetectionTimer(this, p_time);
     // undelivered mail
     if (m_nextMailDelivereTime && m_nextMailDelivereTime <= time(NULL))
     {
@@ -19406,6 +19408,8 @@ void Player::SaveToDB(bool create /*=false*/)
 
     CharacterDatabase.CommitTransaction(trans);
 
+	sAnticheatMgr->SavePlayerData(this);
+	
     // save pet (hunter pet level and experience and all type pets health/mana).
     if (Pet* pet = GetPet())
         pet->SavePetToDB(PET_SAVE_AS_CURRENT);

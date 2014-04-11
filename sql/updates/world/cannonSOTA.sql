@@ -1,0 +1,1 @@
+update into creature_template set mechanic_immune_mask=920633343 where entry=27894
