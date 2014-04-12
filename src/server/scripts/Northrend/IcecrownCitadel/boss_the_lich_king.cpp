@@ -1447,10 +1447,21 @@ class npc_valkyr_shadowguard : public CreatureScript
 
             void Reset() OVERRIDE
             {
+				
+
                 _events.Reset();
                 me->SetReactState(REACT_PASSIVE);
                 DoCast(me, SPELL_WINGS_OF_THE_DAMNED, false);
-                me->SetSpeed(MOVE_FLIGHT, 0.642857f, true);
+                me->SetSpeed(MOVE_FLIGHT, 0.622857f, true);
+
+				// start custom code
+				me->SetCanFly(true);
+				me->SetDisableGravity(true);
+				me->GetPosition(&m_pos);
+				m_pos.m_positionZ = Z_FLY;
+				me->SetPosition(m_pos);
+				// end custom code
+
             }
 
             void IsSummonedBy(Unit* /*summoner*/) OVERRIDE
@@ -1497,8 +1508,21 @@ class npc_valkyr_shadowguard : public CreatureScript
                 {
                     case POINT_DROP_PLAYER:
                         DoCastAOE(SPELL_EJECT_ALL_PASSENGERS);
-                        me->DespawnOrUnsummon(1000);
-                        break;
+
+						// start custom code
+						
+						if (IsHeroic())
+						{
+							me->GetMotionMaster()->MoveTargetedHome();
+							me->ClearUnitState(UNIT_STATE_EVADE);
+							break;
+						}
+						else
+							me->DespawnOrUnsummon();
+							
+						// END custom code
+					
+						break;
                     case POINT_CHARGE:
                         if (Player* target = ObjectAccessor::GetPlayer(*me, _grabbedPlayer))
                         {
@@ -1511,9 +1535,16 @@ class npc_valkyr_shadowguard : public CreatureScript
                                 if (triggers.empty())
                                     return;
 
+// start custom code
+								Position t;
+								t.Relocate(triggers.front());
+								_dropPoint.Relocate(t.GetPositionX(), t.GetPositionY(), Z_FLY);
+// END custom code
+
                                 triggers.sort(Trinity::ObjectDistanceOrderPred(me));
                                 DoCast(target, SPELL_VALKYR_CARRY);
                                 _dropPoint.Relocate(triggers.front());
+
                                 _events.ScheduleEvent(EVENT_MOVE_TO_DROP_POS, 1500);
 
                             }
@@ -1546,6 +1577,11 @@ class npc_valkyr_shadowguard : public CreatureScript
                     switch (eventId)
                     {
                         case EVENT_GRAB_PLAYER:
+// start custom code
+							me->GetPosition(&m_pos);
+							m_pos.m_positionZ = Z_FLY;
+							me->SetPosition(m_pos);
+// END custom code
                             if (!_grabbedPlayer)
                             {
                                 DoCastAOE(SPELL_VALKYR_TARGET_SEARCH);
@@ -1553,6 +1589,11 @@ class npc_valkyr_shadowguard : public CreatureScript
                             }
                             break;
                         case EVENT_MOVE_TO_DROP_POS:
+// start custom code
+							me->GetPosition(&m_pos);
+							m_pos.m_positionZ = Z_FLY;
+							me->SetPosition(m_pos);
+// END custom code
                             me->GetMotionMaster()->MovePoint(POINT_DROP_PLAYER, _dropPoint);
                             break;
                         case EVENT_LIFE_SIPHON:
@@ -1571,7 +1612,11 @@ class npc_valkyr_shadowguard : public CreatureScript
         private:
             EventMap _events;
             Position _dropPoint;
-            uint64 _grabbedPlayer;
+			uint64 _grabbedPlayer; 
+			// start custom code
+			uint64 Z_FLY= 846.0f;
+			Position m_pos;
+			// END custom code
             InstanceScript* _instance;
         };
 

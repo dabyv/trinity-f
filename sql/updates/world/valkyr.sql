@@ -1,0 +1,1 @@
+update creature_template set `speed_walk`=0.342857, mechanic_immune_mask=584790911 where entry in (36609,39120,39121,39122)
