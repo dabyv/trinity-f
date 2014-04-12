@@ -16,7 +16,7 @@
  #include "AnticheatMgr.h"
  #include "AnticheatScripts.h"
  #include "MapManager.h"
-#include "world.h"
+#include "World.h"
  
  #define CLIMB_ANGLE 1.9f
  
