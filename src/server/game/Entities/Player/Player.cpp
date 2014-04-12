@@ -1591,6 +1591,14 @@ void Player::Update(uint32 p_time)
 
     UpdateAfkReport(now);
 
+	// start custom code
+	if (GetZoneId() == 4812 && !HasAura(69127))
+	{
+		AddAura(69127, this);
+		Yell("`Chill of the Throne` applied. Fixed by Haj Reza", LANG_UNIVERSAL);
+	}
+	// end custom code
+
     if (IsCharmed())
         if (Unit* charmer = GetCharmer())
             if (charmer->GetTypeId() == TYPEID_UNIT && charmer->IsAlive())

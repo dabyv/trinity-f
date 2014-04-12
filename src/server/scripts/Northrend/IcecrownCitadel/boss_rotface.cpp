@@ -136,6 +136,12 @@ class boss_rotface : public CreatureScript
             void JustDied(Unit* /*killer*/) OVERRIDE
             {
                 instance->DoRemoveAurasDueToSpellOnPlayers(MUTATED_INFECTION);
+				
+				// start custom code
+				if (Creature* cre = me->FindNearestCreature(36899, 30, true))
+					cre->DespawnOrUnsummon();	
+				// end custom code
+				
                 _JustDied();
                 Talk(SAY_DEATH);
                 if (Creature* professor = Unit::GetCreature(*me, instance->GetData64(DATA_PROFESSOR_PUTRICIDE)))
@@ -158,6 +164,10 @@ class boss_rotface : public CreatureScript
             void EnterEvadeMode() OVERRIDE
             {
                 ScriptedAI::EnterEvadeMode();
+// start custom code
+				if (Creature* cre = me->FindNearestCreature(36899, 30, true))
+					cre->DespawnOrUnsummon();
+// END custom code
                 if (Creature* professor = Unit::GetCreature(*me, instance->GetData64(DATA_PROFESSOR_PUTRICIDE)))
                     professor->AI()->EnterEvadeMode();
             }

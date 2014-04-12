@@ -1,0 +1,1 @@
+UPDATE quest_template SET SourceItemId=49871 WHERE id=24553 or id=24595;
